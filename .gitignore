@@ -1,0 +1,19 @@
+
+# Idea IDE.
+.idea
+.idea_modules
+.env
+
+# Eclipse IDE.
+.cache
+.project
+.classpath
+.settings/
+bin/
+
+# Build
+target
+project/project/
+
+# Default store.
+/store/

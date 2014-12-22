@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- Copyright (C) 2009-2014 Typesafe Inc. <http://www.typesafe.com> -->
+
+	<variable name="pattern" value="%date{ISO8601} %-5level %logger %X{akkaSource} %X{sourceThread} - %msg%n" />
+
+    <!-- Uses multi-jvm java option akka-name. -->
+	<variable name="folder" value="${user.dir}/target/${akka-name}/log" />
+
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${pattern}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="filing" class="ch.qos.logback.core.FileAppender">
+		<file>${folder}/test.log</file>
+		<append>false</append>
+		<encoder>
+			<pattern>${pattern}</pattern>
+		</encoder>
+	</appender>
+
+	<root level="debug">
+		<appender-ref ref="stdout" />
+		<appender-ref ref="filing" />
+	</root>
+
+</configuration>
