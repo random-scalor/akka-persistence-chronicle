@@ -13,13 +13,13 @@ import akka.persistence.snapshot.SnapshotStoreSpec
 import akka.testkit.TestProbe
 
 import com.typesafe.config.ConfigFactory
+import com.typesafe.config.Config
 
-@org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class ChronicleSnapshotStoreSpec extends SnapshotStoreSpec {
+object ChronicleSnapshotStoreSpec {
 
-  final val snapshotLimit = 10
+  val snapshotLimit = 10
 
-  override lazy val config = ConfigFactory.parseString(s"""
+  lazy val config = ConfigFactory.parseString(s"""
     akka.persistence {
       journal {
         plugin = "akka.persistence.journal.inmem"
@@ -35,6 +35,13 @@ class ChronicleSnapshotStoreSpec extends SnapshotStoreSpec {
       }
     }
   """).withFallback(ConfigFactory.load)
+
+}
+
+@org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
+class ChronicleSnapshotStoreSpec(config: Config = ChronicleSnapshotStoreSpec.config) extends SnapshotStoreSpec(config) {
+
+  import ChronicleSnapshotStoreSpec._
 
   "Snapshot store" must {
     "limit number of snapshots" in {

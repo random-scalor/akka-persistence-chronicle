@@ -591,6 +591,6 @@ private[chronicle] class ChronicleSyncJournal extends AsyncWriteJournal with Chr
   }
 
   def asyncDeleteMessagesTo(persistenceId: String, toSequenceNr: Long): scala.concurrent.Future[Unit] = ???
-  
+
   def asyncWriteMessages(messages: scala.collection.immutable.Seq[akka.persistence.AtomicWrite]): scala.concurrent.Future[scala.collection.immutable.Seq[scala.util.Try[Unit]]] = ???
 }

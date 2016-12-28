@@ -24,7 +24,7 @@ private[chronicle] trait PluginActor extends Actor with ActorLogging with Settin
   import settings._
 
   /** System persistence. */
-  implicit val persistence = Persistence(system)
+  //implicit val persistence = Persistence(system)
 
   /** System serialization. */
   implicit val serializer = SerializationExtension(system)

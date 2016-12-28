@@ -5,7 +5,7 @@
 .env
 
 # Eclipse IDE.
-.cache
+.cache*
 .project
 .classpath
 .settings/

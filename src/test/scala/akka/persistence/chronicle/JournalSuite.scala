@@ -16,13 +16,13 @@ import akka.persistence.journal.JournalSpec
 import org.apache.commons.io.FileUtils
 
 import com.typesafe.config.ConfigFactory
+import com.typesafe.config.Config
 
-@org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class ChronicleSyncJournalSpec extends JournalSpec {
+object ChronicleSyncJournalSpec {
 
-  final val journalFolder = "target/store/journal-spec"
+  val journalFolder = "target/store/journal-spec"
 
-  override lazy val config = ConfigFactory.parseString(s"""
+  lazy val config = ConfigFactory.parseString(s"""
     akka.persistence {
       journal {
         plugin = "akka.persistence.chronicle.journal"
@@ -38,6 +38,14 @@ class ChronicleSyncJournalSpec extends JournalSpec {
       }
     }
   """).withFallback(ConfigFactory.load)
+
+}
+
+@org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
+class ChronicleSyncJournalSpec(config: Config = ChronicleSyncJournalSpec.config)
+  extends JournalSpec(config) {
+
+  import ChronicleSyncJournalSpec._
 
   def initialize() = {
     FileUtils.deleteDirectory(new File(journalFolder))
@@ -65,7 +73,7 @@ class ChronicleSyncJournalSpec extends JournalSpec {
       val sourceId = UUID.randomUUID.toString
       val journalActor = PluginTest.extractActor[ChronicleJournal](journal)
       val appender = journalActor.provideJournal(sourceId).appender
-      val source = PersistentRepr("message-payload", 123, sourceId, false, journal)
+      val source = PersistentRepr(payload = "message-payload", sequenceNr = 123, persistenceId = sourceId)
       journalActor.messagePersist(appender, source)
       val target: Content = appender.message
       val targetId = ChronicleJournal.persistenceIdentifier(target)
@@ -76,7 +84,8 @@ class ChronicleSyncJournalSpec extends JournalSpec {
 }
 
 @org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class ChronicleSyncJournalPerfSpec extends ChronicleSyncJournalSpec with JournalPerfSpec {
+class ChronicleSyncJournalPerfSpec(config: Config = ChronicleSyncJournalSpec.config)
+  extends JournalPerfSpec(config) {
 
   override def eventsCount: Int = 1 * 1000
 

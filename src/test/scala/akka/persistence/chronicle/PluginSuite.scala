@@ -15,7 +15,7 @@ import akka.persistence.SaveSnapshotSuccess
 import akka.persistence.SaveSnapshotFailure
 import akka.persistence.SnapshotOffer
 import akka.persistence.RecoveryCompleted
-import akka.persistence.RecoveryFailure
+//import akka.persistence.RecoveryFailure
 import akka.actor.Props
 
 /** Plugin test tools. */
@@ -85,8 +85,8 @@ class StoicActor(id: String) extends PersistentActor {
     case RecoveryCompleted =>
       display(s"+++ ${id} recover success")
       context.system.eventStream.publish("recover-complete")
-    case RecoveryFailure(error) =>
-      display(s"+++ ${id} recover failure ${error}")
+    //    case RecoveryFailure(error) =>
+    //      display(s"+++ ${id} recover failure ${error}")
     case message =>
       display(s"+++ ${id} recover unexpected ${message}")
   }
