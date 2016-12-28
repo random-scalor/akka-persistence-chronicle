@@ -7,13 +7,13 @@ import scalariform.formatter.preferences._
 organization := "com.carrotgarden.akka"
 name := "akka-persistence-chronicle"
 
-scalaVersion := "2.11.5"
-crossScalaVersions := Seq("2.10.4", "2.11.5")
+scalaVersion := "2.11.8"
+// crossScalaVersions := Seq("2.11.8")
 
-val javaVersion = "1.6"
-val akkaVersion = "2.4-SNAPSHOT"
-val chroncleMapVersion = "2.1.3"
-val chroncleQueueVersion = "3.4.1"
+val javaVersion = "1.8"
+val akkaVersion = "2.4.16"
+val chroncleMapVersion = "2.4.15"
+val chroncleQueueVersion = "3.6.2"
 
 //
 
@@ -22,28 +22,28 @@ resolvers += "SonaType Snapshots" at "https://oss.sonatype.org/content/repositor
 
 libraryDependencies += "net.openhft" % "chronicle" % chroncleQueueVersion % "compile"
 libraryDependencies += "net.openhft" % "chronicle-map" % chroncleMapVersion % "compile"
-libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.7"
-libraryDependencies += "com.typesafe.akka" %% "akka-persistence-experimental" % akkaVersion % "compile" exclude("org.iq80.leveldb","leveldb") exclude("org.fusesource.leveldbjni","leveldbjni-all")
+libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.9"
+libraryDependencies += "com.typesafe.akka" %% "akka-persistence" % akkaVersion % "compile" exclude("org.iq80.leveldb","leveldb") exclude("org.fusesource.leveldbjni","leveldbjni-all")
 
 libraryDependencies += "com.typesafe.akka" %% "akka-remote" % akkaVersion % "compile,optional"
 libraryDependencies += "com.typesafe.akka" %% "akka-cluster" % akkaVersion % "compile,optional"
 
 libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"
 libraryDependencies += "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion  % "test"
-libraryDependencies += "com.typesafe.akka" %% "akka-persistence-experimental-tck" % akkaVersion % "test"
+libraryDependencies += "com.typesafe.akka" %% "akka-persistence-tck" % akkaVersion % "test"
 
-libraryDependencies += "org.scala-lang.modules" %% "scala-pickling" % "0.10.0-M2" % "test"
+libraryDependencies += "org.scala-lang.modules" %% "scala-pickling" % "0.11.0-M2" % "test"
 
 libraryDependencies += "com.typesafe.akka" %% "akka-slf4j" % akkaVersion % "test"
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2" % "test"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3" % "test"
 
 libraryDependencies += "junit" % "junit" % "4.12" % "test"
 libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.3" % "test"
-libraryDependencies += "org.specs2" %% "specs2-core" % "2.4.15" % "test"
-libraryDependencies += "org.specs2" %% "specs2-junit" % "2.4.15" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
+libraryDependencies += "org.specs2" %% "specs2-core" % "2.4.16" % "test"
+libraryDependencies += "org.specs2" %% "specs2-junit" % "2.4.16" % "test"
 
-libraryDependencies += "commons-io" % "commons-io"  % "2.4" % "test" 
+libraryDependencies += "commons-io" % "commons-io"  % "2.5" % "test" 
 
 //
 

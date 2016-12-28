@@ -18,7 +18,7 @@ import akka.actor.actorRef2Scala
 import akka.persistence.PersistentRepr
 import akka.persistence.SnapshotMetadata
 import akka.persistence.journal.AsyncRecovery
-import akka.persistence.journal.SyncWriteJournal
+//import akka.persistence.journal.SyncWriteJournal
 import akka.serialization.Serialization
 import net.openhft.chronicle.Excerpt
 import net.openhft.chronicle.ExcerptAppender
@@ -27,6 +27,7 @@ import net.openhft.chronicle.ExcerptTailer
 import net.openhft.lang.io.ByteBufferBytes
 import net.openhft.lang.io.Bytes
 import akka.persistence.Protocol
+import akka.persistence.journal.AsyncWriteJournal
 
 /** Chronicle journal actor components. */
 private[chronicle] object ChronicleJournal {
@@ -515,7 +516,8 @@ private[chronicle] trait ChronicleJournal extends PluginActor {
         val persistenceId = navigator.persistenceId
         val sender = navigator.sender
         val payload = navigator.payload
-        replayCallback(PersistentRepr(payload, sequenceNr, persistenceId, deleted, sender))
+        val manifest = "" // TODO
+        replayCallback(PersistentRepr(payload, sequenceNr, persistenceId, manifest, deleted, sender))
         counter += 1
         loop = navigator.moveIndex()
       } else {
@@ -575,17 +577,20 @@ private[chronicle] trait ChronicleJournalRecovery extends AsyncRecovery with Chr
 
 }
 
-/** Synchronous journal implementation. */
-private[chronicle] class ChronicleSyncJournal extends SyncWriteJournal with ChronicleJournalRecovery {
+/** Journal implementation. */
+private[chronicle] class ChronicleSyncJournal extends AsyncWriteJournal with ChronicleJournalRecovery {
   import ChronicleJournal._
   import ReplicationProtocol._
 
-  override def deleteMessagesTo(persistenceId: String, toSequenceNr: Long, permanent: Boolean): Unit = {
+  /*override*/ def deleteMessagesTo(persistenceId: String, toSequenceNr: Long, permanent: Boolean): Unit = {
     messageDelete(persistenceId, toSequenceNr)
   }
 
-  override def writeMessages(messages: immutable.Seq[PersistentRepr]): Unit = {
+  /*override*/ def writeMessages(messages: immutable.Seq[PersistentRepr]): Unit = {
     persistMesageList(messages)
   }
 
+  def asyncDeleteMessagesTo(persistenceId: String, toSequenceNr: Long): scala.concurrent.Future[Unit] = ???
+  
+  def asyncWriteMessages(messages: scala.collection.immutable.Seq[akka.persistence.AtomicWrite]): scala.concurrent.Future[scala.collection.immutable.Seq[scala.util.Try[Unit]]] = ???
 }

@@ -223,6 +223,10 @@ private[chronicle] class ChronicleSnapshotStore extends ChronicleSnapshot {
   import context._
   import settings._
 
+  def deleteAsync(persistenceId: String,criteria: akka.persistence.SnapshotSelectionCriteria): scala.concurrent.Future[Unit] = ???
+  
+  def deleteAsync(metadata: akka.persistence.SnapshotMetadata): scala.concurrent.Future[Unit] = ???
+  
   /** Observable content creation. */
   def publishCreate(metadata: SnapshotMetadata, snapshot: Any): Unit = {
     val key = keySerialize(metadata)
